@@ -1,0 +1,21 @@
+<header class="container">
+    <nav>
+        <ul>
+            <li routerLinkActive="active">
+                <a routerLink="tracks">Tracks</a>
+            </li>
+        </ul>
+    </nav>
+    <p>
+        <button (click)="signOut()">Sign Out</button>
+    </p>
+    <div *ngIf="userData as user">
+        <p *ngIf="user?.firstName">Howdy, {{ user?.firstName }}</p>
+        <p><b>UID</b>: {{ user?.uid }}</p>
+        <p><b>email</b>: {{ user?.email }}</p>
+    </div>
+</header>
+<main class="container">
+    <app-tracks-list></app-tracks-list>
+</main>
+<footer></footer>

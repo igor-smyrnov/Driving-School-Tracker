@@ -1,0 +1,32 @@
+<main class="container">
+    <h1>Login to your Account</h1>
+    <form [formGroup]="userForm" (ngSubmit)="login(userForm.value)">
+        <label for="email">E-mail</label>
+        <input type="email"
+               id="email"
+               autocomplete="email"
+               formControlName="email"
+               required>
+
+        <div *ngIf="formErrors.email"
+             class="validation-error">
+            {{ formErrors.email }}
+        </div>
+
+        <label for="password">Password</label>
+        <input type="password"
+               id="password"
+               autocomplete="password"
+               formControlName="password"
+               required>
+        <div *ngIf="formErrors.password"
+             class="validation-error">
+            {{ formErrors.password }}
+        </div>
+
+        <button type="submit" [disabled]="!userForm.valid">Log in</button>
+    </form>
+    <div *ngIf="firebaseErrors" class="validation-error">
+        {{firebaseErrors.message}}
+    </div>
+</main>
