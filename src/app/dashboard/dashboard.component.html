@@ -10,9 +10,11 @@
         <button (click)="signOut()">Sign Out</button>
     </p>
     <div *ngIf="userData as user">
-        <p *ngIf="user?.firstName">Howdy, {{ user?.firstName }}</p>
-        <p><b>UID</b>: {{ user?.uid }}</p>
-        <p><b>email</b>: {{ user?.email }}</p>
+        <p *ngIf="user.role == 0">You logged in as Student</p>
+        <p *ngIf="user.role == 1">You logged in as Instructor</p>
+        <p *ngIf="user.role == 2">You logged in as Administrator</p>
+        <p *ngIf="user?.firstName && user?.lastName">{{ user?.firstName }} {{ user?.lastName }}</p>
+        <p>{{ user.email }}</p>
     </div>
 </header>
 <main class="container">

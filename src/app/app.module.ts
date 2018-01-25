@@ -13,6 +13,7 @@ import {TracksListComponent} from './tracks-list/tracks-list.component';
 import {AuthGuardService} from './providers/auth-guard.service';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {TracksService} from './providers/tracks.service';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
         ReactiveFormsModule,
         AppRoutingModule
     ],
-    providers: [AuthService, AuthGuardService],
+    providers: [AuthService, AuthGuardService, TracksService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

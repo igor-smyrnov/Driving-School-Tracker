@@ -1,5 +1,11 @@
-<ul>
-  <li>Track 1</li>
-  <li>Track 2</li>
-  <li>Track 3</li>
-</ul>
+<button class="btn" (click)="createTrack()">Create sample track</button>
+
+<div *ngIf="userTracks" class="tracks-list">
+    <ul *ngFor="let track of userTracks">
+        <li>
+            <p *ngIf="track.instructorData">{{track.instructorData.firstName}} {{track.instructorData.lastName}}</p>
+            <p *ngIf="track.studentData">{{track.studentData.firstName}} {{track.studentData.lastName}}</p>
+            <p>{{ getDateFromTimestamp(track.timestamp) }}</p>
+        </li>
+    </ul>
+</div>
