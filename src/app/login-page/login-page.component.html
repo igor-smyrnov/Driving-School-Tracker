@@ -1,32 +1,92 @@
-<main class="container">
-    <h1>Login to your Account</h1>
-    <form [formGroup]="userForm" (ngSubmit)="login(userForm.value)">
-        <label for="email">E-mail</label>
-        <input type="email"
-               id="email"
-               autocomplete="email"
-               formControlName="email"
-               required>
+<header></header>
+<main>
+    <!--<form [formGroup]="userForm"
+          (ngSubmit)="login(userForm.value)"
+          class="login-form">
 
-        <div *ngIf="formErrors.email"
-             class="validation-error">
-            {{ formErrors.email }}
+        <div class="head">
+            <h1>Login to your Account</h1>
         </div>
+        <div class="body">
+            <label for="email">E-mail</label>
+            <input type="email"
+                   id="email"
+                   autocomplete="email"
+                   formControlName="email"
+                   required>
 
-        <label for="password">Password</label>
-        <input type="password"
-               id="password"
-               autocomplete="password"
-               formControlName="password"
-               required>
-        <div *ngIf="formErrors.password"
-             class="validation-error">
-            {{ formErrors.password }}
+            <div *ngIf="formErrors.email"
+                 class="validation-error">
+                {{ formErrors.email }}
+            </div>
+
+            <label for="password">Password</label>
+            <input type="password"
+                   id="password"
+                   autocomplete="password"
+                   formControlName="password"
+                   required>
+            <div *ngIf="formErrors.password"
+                 class="validation-error">
+                {{ formErrors.password }}
+            </div>
+
+            <button type="submit"
+                    [disabled]="!userForm.valid"
+                    class="btn-primary">Log in
+            </button>
         </div>
+        <div *ngIf="firebaseErrors" class="validation-error">
+            {{firebaseErrors.message}}
+        </div>
+    </form>-->
+        <form [formGroup]="userForm"
+              (ngSubmit)="login(userForm.value)"
+              class="login-page">
 
-        <button type="submit" [disabled]="!userForm.valid">Log in</button>
-    </form>
-    <div *ngIf="firebaseErrors" class="validation-error">
-        {{firebaseErrors.message}}
-    </div>
+            <mat-form-field>
+                <input matInput
+                       placeholder="Enter your email"
+                       autocomplete="email"
+                       formControlName="email"
+                       [type]="email"
+                       required>
+                <mat-error *ngIf="userForm.controls.email.hasError('required')">
+                    Email is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput
+                       placeholder="Enter your password"
+                       autocomplete="password"
+                       formControlName="password"
+                       [type]="hide ? 'password' : 'text'"
+                       required>
+                <mat-icon class="hide-icon"
+                          matSuffix
+                          (click)="hide = !hide">
+                    {{ hide ? 'visibility' : 'visibility_off' }}
+                </mat-icon>
+                <mat-error *ngIf="userForm.controls.password.hasError('required')">
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+            <button
+                    *ngIf="userForm.valid"
+                    mat-raised-button
+                    color="accent"
+                    type="submit">
+                Log in
+            </button>
+            <button
+                    *ngIf="!userForm.valid"
+                    mat-raised-button
+                    disabled>
+                Log in
+            </button>
+            <div *ngIf="firebaseErrors" class="validation-error">
+                {{firebaseErrors.message}}
+            </div>
+        </form>
 </main>
+<footer></footer>

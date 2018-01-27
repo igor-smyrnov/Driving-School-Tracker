@@ -14,6 +14,19 @@ import {AuthGuardService} from './providers/auth-guard.service';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {TracksService} from './providers/tracks.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatToolbarModule
+} from '@angular/material';
 
 @NgModule({
     declarations: [
@@ -29,7 +42,18 @@ import {TracksService} from './providers/tracks.service';
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         ReactiveFormsModule,
-        AppRoutingModule
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatIconModule,
+        MatCardModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatListModule
     ],
     providers: [AuthService, AuthGuardService, TracksService],
     bootstrap: [AppComponent]

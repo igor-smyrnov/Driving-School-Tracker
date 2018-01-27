@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../providers/auth.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
@@ -38,40 +38,5 @@ export class LoginPageComponent implements OnInit {
             ]
             ],
         });
-
-        this.userForm.valueChanges
-            .subscribe(data => this.onValueChanged(data));
-        this.onValueChanged();
     }
-
-    onValueChanged(data?: any): void {
-        if (!this.userForm) {
-            return;
-        }
-        const form = this.userForm;
-        for (const field in this.formErrors) {
-            this.formErrors[field] = '';
-            const control = form.get(field);
-            if (control && control.dirty && !control.valid) {
-                const messages = this.validationMessages[field];
-                for (const key in control.errors) {
-                    this.formErrors[field] += messages[key] + ' ';
-                }
-            }
-        }
-    }
-
-    formErrors = {
-        'email': '',
-        'password': ''
-    };
-
-    validationMessages = {
-        'email': {
-            'required': 'Email is required.'
-        },
-        'password': {
-            'required': 'Password is required.'
-        }
-    };
 }
