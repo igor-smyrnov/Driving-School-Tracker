@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginPageComponent} from './login-page/login-page.component';
-import {TracksListComponent} from './tracks-list/tracks-list.component';
-import {AuthGuardService} from './providers/auth-guard.service';
+import {LoginPageComponent} from './auth/login-page/login-page.component';
+import {TracksListComponent} from './tracks/tracks-list/tracks-list.component';
+import {AuthGuardService} from './auth/auth-guard.service';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 const appRoutes: Routes = [

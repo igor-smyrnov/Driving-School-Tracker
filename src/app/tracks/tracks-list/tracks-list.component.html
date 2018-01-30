@@ -1,0 +1,114 @@
+<mat-card>
+    <mat-card-title color="primary">
+        <mat-toolbar color="primary">Tracks</mat-toolbar>
+    </mat-card-title>
+    <mat-card-content class="tracks-container">
+        <div class="tracks-list" *ngIf="userTracksList && currentUser">
+
+            <mat-nav-list *ngIf="currentUser.role === 0">
+                <h3 mat-subheader>Student tracks</h3>
+                <mat-list-item *ngFor="let track of userTracksList"
+                               (click)="showOnMap(track.points)">
+                    <mat-icon mat-list-icon>event</mat-icon>
+
+                    <h4 mat-line>
+                        {{ track.timestamp | date:'yyyy.MM.dd (HH:mm)' }}
+                    </h4>
+                    <h4 mat-line>
+                        <b>Instructor:</b>
+                    </h4>
+                    <p mat-line>
+                        {{ track.instructorData?.firstName }}
+                        {{ track.instructorData?.lastName }}
+                    </p>
+                    <a (click)="removeTrack(track.$key)" mat-icon-button>
+                        <mat-icon color="warn">delete_forever</mat-icon>
+                    </a>
+                </mat-list-item>
+                <button mat-raised-button
+                        color="primary"
+                        (click)="createTrack()">
+
+                    Create sample track
+                </button>
+                <a (click)="showUserPosition()" color="primary" mat-icon-button>
+                    <mat-icon><i class="material-icons">my_location</i></mat-icon>
+                </a>
+            </mat-nav-list>
+
+            <mat-list *ngIf="currentUser.role === 1">
+                <h3 mat-subheader>Instructor tracks</h3>
+                <mat-list-item *ngFor="let track of userTracksList">
+                    <mat-icon mat-list-icon>event</mat-icon>
+
+                    <h4 mat-line>
+                        {{ track.timestamp | date:'yyyy.MM.dd (HH:mm)' }}
+                    </h4>
+                    <h4 mat-line>
+                        <b>User:</b>
+                    </h4>
+                    <p mat-line>
+                        No data Yet!
+                    </p>
+                </mat-list-item>
+                <a (click)="showUserPosition()" color="primary" mat-icon-button>
+                    <mat-icon><i class="material-icons">my_location</i></mat-icon>
+                </a>
+            </mat-list>
+
+            <mat-list *ngIf="currentUser.role === 2">
+                <h3 mat-subheader>Administrator tracks</h3>
+                <mat-list-item *ngFor="let track of userTracksList">
+                    <mat-icon mat-list-icon>event</mat-icon>
+
+                    <h4 mat-line>
+                        {{ track.timestamp | date:'yyyy.MM.dd (HH:mm)' }}
+                    </h4>
+                    <h4 mat-line>
+                        <b>Instructor:</b>
+                    </h4>
+                    <p mat-line>
+                        {{ track.instructorData?.firstName }}
+                        {{ track.instructorData?.lastName }}
+                    </p>
+                    <h4 mat-line>
+                        <b>User:</b>
+                    </h4>
+                    <p mat-line>
+                        No data Yet!
+                    </p>
+                    <a (click)="removeTrack(track.$key)" mat-icon-button>
+                        <mat-icon color="warn">delete_forever</mat-icon>
+                    </a>
+                </mat-list-item>
+                <button mat-raised-button
+                        color="primary"
+                        (click)="createTrack()">
+
+                    Create sample track
+                </button>
+                <a (click)="showUserPosition()" color="primary" mat-icon-button>
+                    <mat-icon><i class="material-icons">my_location</i></mat-icon>
+                </a>
+            </mat-list>
+        </div>
+        <div class="map">
+            <agm-map [zoom]="googleMap.zoom"
+                     [latitude]="googleMap.position?.lat"
+                     [longitude]="googleMap.position?.lng">
+                <agm-marker
+                        *ngFor="let marker of markers; let i = index"
+                        [latitude]="marker.lat"
+                        [longitude]="marker.lng"
+                        [label]="marker.label">
+                </agm-marker>
+                <agm-polyline [strokeColor]="'#3f51b5'">
+                    <agm-polyline-point *ngFor="let marker of markers; let i = index"
+                                        [latitude]="marker.lat"
+                                        [longitude]="marker.lng">
+                    </agm-polyline-point>
+                </agm-polyline>
+            </agm-map>
+        </div>
+    </mat-card-content>
+</mat-card>

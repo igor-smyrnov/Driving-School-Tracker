@@ -2,31 +2,33 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {environment} from '../environments/environment';
-import {LoginPageComponent} from './login-page/login-page.component';
-import {AuthService} from './providers/auth.service';
+import {LoginPageComponent} from './auth/login-page/login-page.component';
+import {AuthService} from './auth/auth.service';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
-import {TracksListComponent} from './tracks-list/tracks-list.component';
-import {AuthGuardService} from './providers/auth-guard.service';
+import {TracksListComponent} from './tracks/tracks-list/tracks-list.component';
+import {AuthGuardService} from './auth/auth-guard.service';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {TracksService} from './providers/tracks.service';
+import {TracksService} from './tracks/tracks.service';
+import {UsersService} from './users/users.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatTabsModule,
-    MatToolbarModule
+MatButtonModule,
+MatCardModule,
+MatFormFieldModule,
+MatIconModule,
+MatInputModule,
+MatListModule,
+MatSelectModule,
+MatSidenavModule,
+MatTabsModule,
+MatToolbarModule
 } from '@angular/material';
+import {AgmCoreModule} from '@agm/core';
 
 @NgModule({
     declarations: [
@@ -42,8 +44,10 @@ import {
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         ReactiveFormsModule,
+        FormsModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        AgmCoreModule.forRoot({apiKey: environment.googleMapsKey}),
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
@@ -55,7 +59,7 @@ import {
         MatTabsModule,
         MatListModule
     ],
-    providers: [AuthService, AuthGuardService, TracksService],
+    providers: [AuthService, AuthGuardService, TracksService, UsersService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

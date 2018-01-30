@@ -1,15 +1,24 @@
 <main>
     <mat-toolbar color="primary">
         <mat-toolbar-row class="container">
-            <button mat-button routerLink="tracks">Tracks</button>
+            <button mat-button
+                    routerLink="userProfile">
+                    <mat-icon mat-list-icon>face</mat-icon>
+                My profile
+            </button>
+            <button mat-button
+                    routerLink="tracks">
+                <mat-icon mat-list-icon>event</mat-icon>
+                Tracks
+            </button>
             <button mat-raised-button color="accent" (click)="signOut()">Sign Out</button>
             <span class="fill-remaining-space"></span>
         </mat-toolbar-row>
     </mat-toolbar>
     <mat-sidenav-container>
         <mat-sidenav mode="side"
-                     #sidenav>
-            <mat-toolbar>
+                     #sidenav opened="true">
+            <mat-toolbar color="primary">
                 <h1>User data:</h1>
             </mat-toolbar>
             <div *ngIf="userData as user"
@@ -18,24 +27,13 @@
                 <p *ngIf="user.role == 0">You logged in as Student</p>
                 <p *ngIf="user.role == 1">You logged in as Instructor</p>
                 <p *ngIf="user.role == 2">You logged in as Administrator</p>
-                <p *ngIf="user?.firstName && user?.lastName">{{ user?.firstName }} {{ user?.lastName }}</p>
+                <p *ngIf="user?.firstName && user?.lastName">{{ user?.firstName }}
+                    {{ user?.lastName }}</p>
                 <p>{{ user.email }}</p>
             </div>
         </mat-sidenav>
-        <mat-sidenav-content>
-            <p>
-                <mat-card>
-                    <mat-card-content>
-                        <button mat-raised-button
-                                color="primary"
-                                (click)="sidenav.toggle()">
-
-                            User data
-                        </button>
-                        <app-tracks-list></app-tracks-list>
-                    </mat-card-content>
-                </mat-card>
-            </p>
+        <mat-sidenav-content class="dashboard-container">
+            <app-tracks-list></app-tracks-list>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </main>

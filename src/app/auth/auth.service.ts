@@ -3,7 +3,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
-import {User} from '../data/user.interface';
+import {User} from '../users/user.interface';
 
 export class EmailPasswordCredentials {
     email: string;
@@ -13,13 +13,13 @@ export class EmailPasswordCredentials {
 @Injectable()
 export class AuthService {
 
-    public user: Observable<User>;
+    public loggedInUser: Observable<User>;
 
     constructor(private afAuth: AngularFireAuth,
                 private db: AngularFireDatabase,
                 private router: Router) {
 
-        this.user = this.afAuth.authState
+        this.loggedInUser = this.afAuth.authState
             .switchMap(
                 user => {
                     if (user) {
@@ -30,7 +30,9 @@ export class AuthService {
                 })
     }
 
+    // ToDo: is it really promise???
     public emailLogin(credentials: EmailPasswordCredentials): Promise<object> {
+        // this.db.database.goOnline();
         return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password)
             .then((credentials) => {
                 this.db.list(`/users/${credentials.uid}`).valueChanges()
@@ -64,7 +66,7 @@ export class AuthService {
     }
 
     public signOut(): void {
-        this.db.database.goOffline();
+        // this.db.database.goOffline();
         this.afAuth.auth.signOut()
             .then(() => this.router.navigate(['/login']))
             .catch(error => {
