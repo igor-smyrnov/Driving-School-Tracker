@@ -1,9 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {TracksService} from '../tracks.service';
 import {AuthService} from '../../auth/auth.service';
-import {Track} from '../track.interface';
-import {AngularFireList} from 'angularfire2/database';
-import {User} from '../../users/user.interface';
+import {UsersService} from '../../users/users.service';
+import {ILoggedUser, ITrack} from '../../app.interface';
+
+interface IGoogleMap {
+    position?: object;
+    zoom: number;
+}
+
+interface IMarker {
+    lat: number;
+    lng: number;
+    label?: string;
+}
 
 @Component({
     selector: 'app-tracks-list',
@@ -12,59 +22,23 @@ import {User} from '../../users/user.interface';
 })
 
 export class TracksListComponent implements OnInit {
-
-    public userTracksList: Track[];
-    private currentUser: User;
-    private googleMap: GoogleMap;
+    public userTracksList: ITrack[] = [];
+    public markers: IMarker[] = [];
+    public googleMap: IGoogleMap;
+    private currentUser: ILoggedUser;
 
     constructor(private tracksService: TracksService,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private usersService: UsersService) {
         this.googleMap = {zoom: 14}
     }
 
-    ngOnInit() {
-        this.getUserTracksList();
+    public ngOnInit(): void {
+        this.getUserData();
         this.showUserPosition();
     }
 
-    getUserTracksList() {
-        this.authService.loggedInUser
-            .subscribe(
-                userData => {
-                    if (userData) {
-                        this.currentUser = userData;
-
-                        let userTracksList: AngularFireList<any>;
-                        userTracksList = this.returnTracksByRoleAndUid(userData.role, userData.uid);
-                        userTracksList.snapshotChanges()
-                            .subscribe(
-                                tracks => {
-                                    this.userTracksList = [];
-
-                                    tracks.forEach(
-                                        track => {
-                                            let newTrack = track.payload.toJSON();
-                                            newTrack['$key'] = track.key;
-                                            this.userTracksList.push(newTrack as Track);
-                                        });
-                                }
-                            )
-                    }
-                });
-    }
-
-    private returnTracksByRoleAndUid(role: number, uid: string): AngularFireList<any> {
-        switch (role) {
-            case 0:
-                return this.tracksService.getStudentTracksList(uid);
-            case 1:
-                return this.tracksService.getInstructorTracksList(uid);
-            case 2:
-                return this.tracksService.getCompleteTracksList();
-        }
-    }
-
-    showOnMap(points) {
+    public showOnMap(points): void {
         this.markers = [];
         for (let key in points) {
             if (points.hasOwnProperty(key)) {
@@ -93,17 +67,17 @@ export class TracksListComponent implements OnInit {
         }
     }
 
-    private createTrack() {
+    public createTrack(): void {
         if (this.currentUser.uid) {
             this.tracksService.createSampleTrack('JtBu0EVIdHfUwRUXLLLWr1wbmZE3', this.currentUser.uid);
         }
     }
 
-    private removeTrack($key: string) {
+    public removeTrack($key: string) {
         this.tracksService.removeTrack($key);
     }
 
-    private showUserPosition() {
+    public showUserPosition(): void {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -116,17 +90,39 @@ export class TracksListComponent implements OnInit {
         }
     }
 
-    markers: Marker[] = []
-}
-
-//ToDo: make it in another file
-interface GoogleMap {
-    position?: object;
-    zoom: number;
-}
-//ToDo: make it in another file
-interface Marker {
-    lat: number;
-    lng: number;
-    label?: string;
+    private getUserData(): void {
+        this.authService.loggedInUser
+            .subscribe(
+                userData => {
+                    if (userData) {
+                        this.currentUser = userData;
+                        this.tracksService.getUserTracksList(userData.uid, userData.role)
+                            .snapshotChanges()
+                            .subscribe(
+                                tracks => {
+                                    if (tracks) {
+                                        this.userTracksList = [];
+                                        tracks.forEach(
+                                            track => {
+                                                let newTrack = track.payload.toJSON();
+                                                newTrack['$key'] = track.key;
+                                                this.usersService.getUserDataByUid(newTrack.instructorUid)
+                                                    .subscribe(
+                                                        instructorData =>
+                                                            newTrack['instructorData'] = instructorData
+                                                    );
+                                                this.usersService.getUserDataByUid(newTrack.studentUid)
+                                                    .subscribe(
+                                                        studentData =>
+                                                            newTrack['studentData'] = studentData
+                                                    );
+                                                this.userTracksList.push(newTrack);
+                                            }
+                                        )
+                                    }
+                                });
+                    }
+                }
+            );
+    }
 }

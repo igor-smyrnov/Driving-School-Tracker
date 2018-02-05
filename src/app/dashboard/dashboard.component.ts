@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
+import {ILoggedUser} from '../app.interface';
 
 @Component({
     selector: 'app-home-page',
@@ -7,22 +8,21 @@ import {AuthService} from '../auth/auth.service';
     styles: []
 })
 export class DashboardComponent implements OnInit {
-
-    private userData: object;
+    private userData: ILoggedUser;
 
     constructor(private auth: AuthService) {
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.auth.loggedInUser
             .subscribe(
-                data => {
+                (data: ILoggedUser) => {
                     this.userData = data;
                 }
             )
     }
 
-    signOut(): void {
+    public signOut(): void {
         this.auth.signOut();
     }
 

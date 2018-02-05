@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
     constructor() {
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
     }
 
 }

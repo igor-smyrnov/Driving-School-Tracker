@@ -1,97 +1,78 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import {Track} from './track.interface';
-import {UsersService} from '../users/users.service';
+import {ITrack} from '../app.interface';
 
 @Injectable()
 export class TracksService {
 
-    tracksList: AngularFireList<any>;
-
-    constructor(private db: AngularFireDatabase,
-                private usersService: UsersService) {
+    constructor(private db: AngularFireDatabase) {
     }
 
-    getStudentTracksList(studentUid): AngularFireList<any> {
-        this.tracksList = this.db.list('/tracks',
-            ref => ref.orderByChild('studentUid').equalTo(studentUid));
-
-        return this.tracksList;
-    }
-
-    getInstructorTracksList(instructorUid): AngularFireList<any> {
-        this.tracksList = this.db.list('/tracks',
-            ref => ref.orderByChild('instructorUid').equalTo(instructorUid));
-
-        this.tracksList.valueChanges().subscribe(
-            instructorTracks => {
-
-                instructorTracks.forEach(
-                    track => {
-                        track.instructorData.firstName = "Test";
-                    }
-                )
+    public getUserTracksList(userUid, userRole): AngularFireList {
+        switch (userRole) {
+            case 0: {
+                return this.db.list('/tracks',
+                    ref => ref.orderByChild('studentUid').equalTo(userUid));
             }
-        );
-
-        return this.tracksList;
+            case 1: {
+                return this.db.list('/tracks',
+                    ref => ref.orderByChild('instructorUid').equalTo(userUid));
+            }
+            case 2: {
+                return this.db.list('/tracks');
+            }
+            default: {
+                return this.db.list('/tracks');
+            }
+        }
     }
 
-    getCompleteTracksList(): AngularFireList<any> {
-        this.tracksList = this.db.list('/tracks');
-
-        return this.tracksList;
-    }
-
-    public createSampleTrack(instructorUid: string, studentUid: string) {
+    public createSampleTrack(instructorUid: string, studentUid: string): void {
         let tracksDb = this.db.list('/tracks');
-        let instructorData: object;
-        this.usersService.getUserDataByUid(instructorUid).subscribe(
-            userData => {
-                instructorData = userData;
 
-                navigator.geolocation.getCurrentPosition(
-                    location => {
-                        const data: Track = {
-                            instructorUid: instructorUid,
-                            instructorData: instructorData,
-                            studentUid: studentUid,
-                            timestamp: location.timestamp,
-                            points: [
-                                [
-                                    location.coords.latitude,
-                                    location.coords.longitude
-                                ],
-                                [
-                                    location.coords.latitude + Math.random()/10,
-                                    location.coords.longitude + Math.random()/10
-                                ],
-                                [
-                                    location.coords.latitude + Math.random()/10,
-                                    location.coords.longitude + Math.random()/10
-                                ],
-                                [
-                                    location.coords.latitude + Math.random()/10,
-                                    location.coords.longitude + Math.random()/10
-                                ],
-                                [
-                                    location.coords.latitude + Math.random()/10,
-                                    location.coords.longitude + Math.random()/10
-                                ]
-                            ]
-                        };
-                        tracksDb.push(data);
-                    },
-                    error => {
-                        return error;
-                    }
-                );
+        navigator.geolocation.getCurrentPosition(
+            location => {
+                const data: ITrack = {
+                    instructorUid: instructorUid,
+                    studentUid: studentUid,
+                    timestamp: location.timestamp,
+                    points: [
+                        [
+                            location.coords.latitude,
+                            location.coords.longitude
+                        ],
+                        [
+                            location.coords.latitude + Math.random() / 10,
+                            location.coords.longitude + Math.random() / 10
+                        ],
+                        [
+                            location.coords.latitude + Math.random() / 10,
+                            location.coords.longitude + Math.random() / 10
+                        ],
+                        [
+                            location.coords.latitude + Math.random() / 10,
+                            location.coords.longitude + Math.random() / 10
+                        ],
+                        [
+                            location.coords.latitude + Math.random() / 10,
+                            location.coords.longitude + Math.random() / 10
+                        ],
+                        [
+                            location.coords.latitude + Math.random() / 10,
+                            location.coords.longitude + Math.random() / 10
+                        ]
+                    ]
+                };
+                tracksDb.push(data);
+            },
+            error => {
+                return error;
             }
         );
 
     }
 
-    removeTrack($key : string){
-        this.tracksList.remove($key);
+    public removeTrack($key: string) {
+        this.db.list('/tracks').remove($key);
     }
 }

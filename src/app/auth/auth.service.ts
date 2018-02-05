@@ -3,17 +3,23 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
-import {User} from '../users/user.interface';
 
-export class EmailPasswordCredentials {
+interface IEmailPasswordCredentials {
     email: string;
     password: string;
+}
+interface IAuthUser {
+    uid: string;
+    email: string;
+    role: number;
+    firstName?: string;
+    lastName?: string;
 }
 
 @Injectable()
 export class AuthService {
 
-    public loggedInUser: Observable<User>;
+    public loggedInUser: any;
 
     constructor(private afAuth: AngularFireAuth,
                 private db: AngularFireDatabase,
@@ -23,17 +29,16 @@ export class AuthService {
             .switchMap(
                 user => {
                     if (user) {
-                        return this.db.object<User>(`users/${user.uid}`).valueChanges();
+                        return this.db.object<IAuthUser>(`users/${user.uid}`).valueChanges();
                     } else {
                         return Observable.of(null)
                     }
                 })
     }
 
-    // ToDo: is it really promise???
-    public emailLogin(credentials: EmailPasswordCredentials): Promise<object> {
-        // this.db.database.goOnline();
-        return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password)
+    public emailLogin(credentials: IEmailPasswordCredentials): Promise<AngularFireAuth> {
+        return this.afAuth.auth
+            .signInWithEmailAndPassword(credentials.email, credentials.password)
             .then((credentials) => {
                 this.db.list(`/users/${credentials.uid}`).valueChanges()
                     .subscribe(
@@ -52,10 +57,10 @@ export class AuthService {
 
     public initUserData(user): void {
         let userTable = this.db.database.ref(`/users/${user.uid}`);
-        const data: User = {
+        const data: IAuthUser = {
             uid: user.uid,
             email: user.email,
-            role: 1,
+            role: 0,
             firstName: null,
             lastName: null
         };
@@ -66,7 +71,6 @@ export class AuthService {
     }
 
     public signOut(): void {
-        // this.db.database.goOffline();
         this.afAuth.auth.signOut()
             .then(() => this.router.navigate(['/login']))
             .catch(error => {
