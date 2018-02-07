@@ -10,6 +10,13 @@ pipelines:
     - step:
         caches:
           - node
-        script: # Modify the commands below to build your repository.
+        script: # Modify the commands below to build your repository.               
+          - ls -hal
+          - apt-get update
+          - apt-get -qq install git-ftp
+          - apt-get -y install nodejs-legacy
+          - apt-get -y install npm
           - npm install
-          - npm test
+          - npm build
+          - cd dist
+          - ls -hal
