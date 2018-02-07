@@ -1,0 +1,36 @@
+<mat-card>
+    <mat-card-title color="primary">
+        <mat-toolbar color="primary">User Profile</mat-toolbar>
+    </mat-card-title>
+    <mat-card-content class="tracks-container">
+        <form (ngSubmit)="save(userForm.value)">
+            <mat-form-field>
+                <input matInput
+                       [value]=currentUser.firstName
+                       placeholder="Enter your name"
+                       autocomplete="name"
+                       [type]="text">
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput
+                       [value]=currentUser.lastName
+                       placeholder="Enter your surname"
+                       autocomplete="surname"
+                       [type]="text">
+            </mat-form-field>
+
+            <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit">
+                Save
+            </button>
+            <button
+                    mat-raised-button
+                    color="warn"
+                    type="submit">
+                Reset
+            </button>
+        </form>
+    </mat-card-content>
+</mat-card>

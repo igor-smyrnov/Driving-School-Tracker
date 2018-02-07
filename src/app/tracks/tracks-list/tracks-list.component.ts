@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TracksService} from '../tracks.service';
 import {AuthService} from '../../auth/auth.service';
 import {UsersService} from '../../users/users.service';
-import {ILoggedUser, ITrack} from '../../app.interface';
+import {ILoggedUser} from '../../app.interface';
 
 interface IGoogleMap {
     position?: object;
@@ -22,10 +22,10 @@ interface IMarker {
 })
 
 export class TracksListComponent implements OnInit {
-    public userTracksList: ITrack[] = [];
+    public tracksListModel: any = [];
     public markers: IMarker[] = [];
     public googleMap: IGoogleMap;
-    private currentUser: ILoggedUser;
+    public currentUser: ILoggedUser;
 
     constructor(private tracksService: TracksService,
                 private authService: AuthService,
@@ -40,26 +40,27 @@ export class TracksListComponent implements OnInit {
 
     public showOnMap(points): void {
         this.markers = [];
+        console.log(points);
         for (let key in points) {
             if (points.hasOwnProperty(key)) {
                 if (parseInt(key) === 0) {
                     this.markers.push({
-                        lat: points[key][0],
-                        lng: points[key][1],
+                        lat: points[key]['latitude'],
+                        lng: points[key]['longitude'],
                         label: 'A'
                     });
                 }
                 else if (parseInt(key) === Object.keys(points).length - 1) {
                     this.markers.push({
-                        lat: points[key][0],
-                        lng: points[key][1],
+                        lat: points[key]['latitude'],
+                        lng: points[key]['longitude'],
                         label: 'B'
                     });
                 }
                 else {
                     this.markers.push({
-                        lat: points[key][0],
-                        lng: points[key][1],
+                        lat: points[key]['latitude'],
+                        lng: points[key]['longitude'],
                         label: key
                     });
                 }
@@ -73,7 +74,7 @@ export class TracksListComponent implements OnInit {
         }
     }
 
-    public removeTrack($key: string) {
+    public removeTrack($key: string): void {
         this.tracksService.removeTrack($key);
     }
 
@@ -101,10 +102,10 @@ export class TracksListComponent implements OnInit {
                             .subscribe(
                                 tracks => {
                                     if (tracks) {
-                                        this.userTracksList = [];
+                                        this.tracksListModel = [];
                                         tracks.forEach(
                                             track => {
-                                                let newTrack = track.payload.toJSON();
+                                                let newTrack: any = track.payload.toJSON();
                                                 newTrack['$key'] = track.key;
                                                 this.usersService.getUserDataByUid(newTrack.instructorUid)
                                                     .subscribe(
@@ -116,7 +117,7 @@ export class TracksListComponent implements OnInit {
                                                         studentData =>
                                                             newTrack['studentData'] = studentData
                                                     );
-                                                this.userTracksList.push(newTrack);
+                                                this.tracksListModel.push(newTrack);
                                             }
                                         )
                                     }

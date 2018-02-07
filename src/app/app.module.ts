@@ -17,25 +17,27 @@ import {TracksService} from './tracks/tracks.service';
 import {UsersService} from './users/users.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
-MatButtonModule,
-MatCardModule,
-MatFormFieldModule,
-MatIconModule,
-MatInputModule,
-MatListModule,
-MatSelectModule,
-MatSidenavModule,
-MatTabsModule,
-MatToolbarModule
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatToolbarModule
 } from '@angular/material';
 import {AgmCoreModule} from '@agm/core';
+import {UserProfileComponent} from './users/user-profile/user-profile.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginPageComponent,
         TracksListComponent,
-        DashboardComponent
+        DashboardComponent,
+        UserProfileComponent
     ],
     imports: [
         BrowserModule,

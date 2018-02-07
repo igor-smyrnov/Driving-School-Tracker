@@ -29,6 +29,8 @@ export class AuthService {
             .switchMap(
                 user => {
                     if (user) {
+                        console.log(user);
+                        // TODO: remove it!!!
                         return this.db.object<IAuthUser>(`users/${user.uid}`).valueChanges();
                     } else {
                         return Observable.of(null)

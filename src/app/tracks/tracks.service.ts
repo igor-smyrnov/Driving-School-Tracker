@@ -8,7 +8,7 @@ export class TracksService {
     constructor(private db: AngularFireDatabase) {
     }
 
-    public getUserTracksList(userUid, userRole): AngularFireList {
+    public getUserTracksList(userUid, userRole): AngularFireList<ITrack> {
         switch (userRole) {
             case 0: {
                 return this.db.list('/tracks',
