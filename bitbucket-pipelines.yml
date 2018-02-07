@@ -19,7 +19,8 @@ pipelines:
           - npm install -g @angular/cli
           - npm set registry https://registry.npmjs.org/
           - npm install
-          - npm build
+          - ng build --env=prod --base-href /tracks/
+          - ls
           - git add -f .
           - git diff --cached --name-only
           - git config --global user.name "Igor Smyrnov"
