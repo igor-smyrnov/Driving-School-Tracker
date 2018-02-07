@@ -19,5 +19,9 @@ pipelines:
           - npm set registry https://registry.npmjs.org/
           - npm install
           - npm build
+          - git add -f dist
+          - git diff --cached --name-only
+          - git config --global user.name "Igor Smyrnov"
+          - git config --global user.email "smyrnovai@gmail.com"
           - git commit -m "builded"
           - ls
