@@ -30,7 +30,7 @@ export class AuthService {
                 user => {
                     if (user) {
                         console.log(user);
-                        // TODO: remove it!!!
+                        // TODO: remove it!!
                         return this.db.object<IAuthUser>(`users/${user.uid}`).valueChanges();
                     } else {
                         return Observable.of(null)
