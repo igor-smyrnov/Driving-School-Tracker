@@ -19,6 +19,7 @@ pipelines:
           - npm install -g @angular/cli
           - npm set registry https://registry.npmjs.org/
           - npm install
+          - npm cache clean
           - ng build --env=prod --base-href /tracks/
           - ls
           - git add -f dist
