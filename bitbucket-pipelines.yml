@@ -21,10 +21,9 @@ pipelines:
           - npm install
           - ng build --env=prod --base-href /tracks/
           - ls
-          - git add -f .
+          - git add -f dist
           - git diff --cached --name-only
           - git config --global user.name "Igor Smyrnov"
           - git config --global user.email "smyrnovai@gmail.com"
           - git commit -m "builded"
-          - ls
-          - git ftp init -v --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://serwer1740022.home.pl/public_html/tracker
+          - git ftp init -v --syncroot dist/ --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://serwer1740022.home.pl/public_html/tracker
