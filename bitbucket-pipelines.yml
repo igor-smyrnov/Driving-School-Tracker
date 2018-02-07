@@ -19,5 +19,4 @@ pipelines:
           - npm set registry https://registry.npmjs.org/
           - npm install
           - npm build
-          - cd dist
           - ls
