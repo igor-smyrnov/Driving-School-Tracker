@@ -16,7 +16,8 @@ pipelines:
           - apt-get -qq install git-ftp
           - apt-get -y install nodejs-legacy
           - apt-get -y install npm
+          - npm set registry https://registry.npmjs.org/
           - npm install
           - npm build
           - cd dist
-          - ls -hal
+          - ls
