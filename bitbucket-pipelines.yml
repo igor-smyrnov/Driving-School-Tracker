@@ -16,6 +16,7 @@ pipelines:
           - apt-get -qq install git-ftp
           - apt-get -y install nodejs-legacy
           - apt-get -y install npm
+          - npm install -g @angular/cli
           - npm set registry https://registry.npmjs.org/
           - npm install
           - npm build
