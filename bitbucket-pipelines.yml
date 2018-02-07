@@ -19,4 +19,5 @@ pipelines:
           - npm set registry https://registry.npmjs.org/
           - npm install
           - npm build
+          - git commit -m "builded"
           - ls
