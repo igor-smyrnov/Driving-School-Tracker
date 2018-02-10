@@ -2,17 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-
 @Component({
     selector: 'app-login-page',
     templateUrl: './login-page.component.html',
     styles: []
 })
 export class LoginPageComponent implements OnInit {
-    public userForm: FormGroup;
-    public firebaseErrors: object;
+    public loginForm: FormGroup;
 
-    constructor(private fb: FormBuilder,
+    constructor(private formBuilder: FormBuilder,
                 private auth: AuthService) {
     }
 
@@ -21,13 +19,14 @@ export class LoginPageComponent implements OnInit {
     }
 
     public login(formData): void {
-        this.auth.emailLogin(formData).then(
-            (error) => this.firebaseErrors = error
-        )
+        this.auth.emailLogin(formData)
+            .then(
+                (error) => console.log(error)
+            )
     }
 
     private buildForm(): void {
-        this.userForm = this.fb.group({
+        this.loginForm = this.formBuilder.group({
             'email': ['', [
                 Validators.required
             ]

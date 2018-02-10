@@ -8,7 +8,7 @@ import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {AppRoutingModule} from './app-routing.module';
+import {AppRoutingModule} from './router/app-routing.module';
 import {TracksListComponent} from './tracks/tracks-list/tracks-list.component';
 import {AuthGuardService} from './auth/auth-guard.service';
 import {AngularFirestoreModule} from 'angularfire2/firestore';

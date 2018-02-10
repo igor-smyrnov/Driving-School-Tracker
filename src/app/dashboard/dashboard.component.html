@@ -27,8 +27,7 @@
                 <p *ngIf="user.role == 0">You logged in as Student</p>
                 <p *ngIf="user.role == 1">You logged in as Instructor</p>
                 <p *ngIf="user.role == 2">You logged in as Administrator</p>
-                <p *ngIf="user?.firstName && user?.lastName">{{ user?.firstName }}
-                    {{ user?.lastName }}</p>
+                <p>{{ user?.firstName }} {{ user?.lastName }}</p>
                 <p>{{ user.email }}</p>
             </div>
         </mat-sidenav>

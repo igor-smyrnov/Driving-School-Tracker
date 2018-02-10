@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ILoggedUser} from '../../app.interface';
+import {IAuthUser, IDbUser} from '../../app.interface';
 import {AuthService} from '../../auth/auth.service';
+import {UsersService} from '../users.service';
 
 @Component({
     selector: 'app-user-profile',
@@ -9,23 +9,44 @@ import {AuthService} from '../../auth/auth.service';
     styles: []
 })
 export class UserProfileComponent implements OnInit {
-    public currentUser: ILoggedUser;
-    public userForm: FormGroup;
+    public userUid: string;
+    public userDataModel: IDbUser = {
+        role: 0,
+        email: '',
+        firstName: '',
+        lastName: ''
+    };
 
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService,
+                private usersService: UsersService) {
     }
 
     public ngOnInit(): void {
         this.getUserData();
     }
 
+    public save() {
+        this.usersService.setUserDataByUid(this.userUid, this.userDataModel);
+    }
+
     private getUserData(): void {
-        this.authService.loggedInUser
+        this.authService.authUser
             .subscribe(
-                userData => {
-                    if (userData) {
-                        console.log(userData);
-                        this.currentUser = userData;
+                (authUser: IAuthUser) => {
+                    if (authUser) {
+                        this.userUid = authUser.uid;
+                        this.usersService
+                            .getUserDataByUid(authUser.uid)
+                            .subscribe(
+                                (userData: IDbUser) => {
+                                    this.userDataModel = {
+                                        role: userData.role,
+                                        email: userData.email,
+                                        firstName: userData.firstName,
+                                        lastName: userData.lastName
+                                    }
+                                }
+                            )
                     }
                 })
     }

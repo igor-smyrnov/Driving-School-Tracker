@@ -27,51 +27,6 @@ export class TracksService {
         }
     }
 
-    public createSampleTrack(instructorUid: string, studentUid: string): void {
-        let tracksDb = this.db.list('/tracks');
-
-        navigator.geolocation.getCurrentPosition(
-            location => {
-                const data: ITrack = {
-                    instructorUid: instructorUid,
-                    studentUid: studentUid,
-                    timestamp: location.timestamp,
-                    points: [
-                        [
-                            location.coords.latitude,
-                            location.coords.longitude
-                        ],
-                        [
-                            location.coords.latitude + Math.random() / 10,
-                            location.coords.longitude + Math.random() / 10
-                        ],
-                        [
-                            location.coords.latitude + Math.random() / 10,
-                            location.coords.longitude + Math.random() / 10
-                        ],
-                        [
-                            location.coords.latitude + Math.random() / 10,
-                            location.coords.longitude + Math.random() / 10
-                        ],
-                        [
-                            location.coords.latitude + Math.random() / 10,
-                            location.coords.longitude + Math.random() / 10
-                        ],
-                        [
-                            location.coords.latitude + Math.random() / 10,
-                            location.coords.longitude + Math.random() / 10
-                        ]
-                    ]
-                };
-                tracksDb.push(data);
-            },
-            error => {
-                return error;
-            }
-        );
-
-    }
-
     public removeTrack($key: string) {
         this.db.list('/tracks').remove($key);
     }

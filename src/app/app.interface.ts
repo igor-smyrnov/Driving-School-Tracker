@@ -1,7 +1,14 @@
-export interface ILoggedUser {
+export interface IDbUser {
+    uid?: string;
+    role: number;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+}
+
+export interface IAuthUser {
     uid: string;
-    name: string;
-    surname: string;
+    email: string;
 }
 
 export interface ITrack {

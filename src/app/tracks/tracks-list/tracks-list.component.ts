@@ -2,17 +2,23 @@ import {Component, OnInit} from '@angular/core';
 import {TracksService} from '../tracks.service';
 import {AuthService} from '../../auth/auth.service';
 import {UsersService} from '../../users/users.service';
-import {ILoggedUser} from '../../app.interface';
+import {IAuthUser, IDbUser} from '../../app.interface';
 
 interface IGoogleMap {
-    position?: object;
+    latitude: number;
+    longitude: number;
     zoom: number;
 }
 
 interface IMarker {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
     label?: string;
+}
+
+interface IPoint {
+    latitude: number;
+    longitude: number;
 }
 
 @Component({
@@ -23,54 +29,61 @@ interface IMarker {
 
 export class TracksListComponent implements OnInit {
     public tracksListModel: any = [];
+    public points: IPoint[] = [];
     public markers: IMarker[] = [];
-    public googleMap: IGoogleMap;
-    public currentUser: ILoggedUser;
+    public googleMap: IGoogleMap = {
+        latitude: 51.7613777,
+        longitude: 51.7613777,
+        zoom: 14
+    };
+    public userDataModel: IDbUser;
 
     constructor(private tracksService: TracksService,
                 private authService: AuthService,
                 private usersService: UsersService) {
-        this.googleMap = {zoom: 14}
     }
 
     public ngOnInit(): void {
-        this.getUserData();
         this.showUserPosition();
+        this.getUserData();
     }
 
     public showOnMap(points): void {
         this.markers = [];
-        console.log(points);
         for (let key in points) {
             if (points.hasOwnProperty(key)) {
-                if (parseInt(key) === 0) {
+                if (parseInt(key) === 1) {
+                    this.googleMap.latitude = points[key].latitude;
+                    this.googleMap.longitude = points[key].longitude;
                     this.markers.push({
-                        lat: points[key]['latitude'],
-                        lng: points[key]['longitude'],
+                        latitude: points[key].latitude,
+                        longitude: points[key].longitude,
                         label: 'A'
                     });
                 }
-                else if (parseInt(key) === Object.keys(points).length - 1) {
+                if (parseInt(key) === Object.keys(points).length - 1) {
                     this.markers.push({
-                        lat: points[key]['latitude'],
-                        lng: points[key]['longitude'],
+                        latitude: points[key].latitude,
+                        longitude: points[key].longitude,
                         label: 'B'
                     });
                 }
-                else {
-                    this.markers.push({
-                        lat: points[key]['latitude'],
-                        lng: points[key]['longitude'],
-                        label: key
-                    });
-                }
+                this.points.push({
+                    latitude: points[key].latitude,
+                    longitude: points[key].longitude,
+                });
             }
         }
     }
 
-    public createTrack(): void {
-        if (this.currentUser.uid) {
-            this.tracksService.createSampleTrack('JtBu0EVIdHfUwRUXLLLWr1wbmZE3', this.currentUser.uid);
+    public showUserPosition() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.googleMap.latitude = position.coords.latitude;
+                    this.googleMap.longitude = position.coords.longitude;
+                }
+            );
         }
     }
 
@@ -78,50 +91,53 @@ export class TracksListComponent implements OnInit {
         this.tracksService.removeTrack($key);
     }
 
-    public showUserPosition(): void {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    this.googleMap.position = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    }
-                }
-            );
-        }
-    }
-
     private getUserData(): void {
-        this.authService.loggedInUser
+        this.authService.authUser
             .subscribe(
-                userData => {
-                    if (userData) {
-                        this.currentUser = userData;
-                        this.tracksService.getUserTracksList(userData.uid, userData.role)
-                            .snapshotChanges()
+                (authUser: IAuthUser) => {
+                    if (authUser) {
+                        this.usersService
+                            .getUserDataByUid(authUser.uid)
                             .subscribe(
-                                tracks => {
-                                    if (tracks) {
-                                        this.tracksListModel = [];
-                                        tracks.forEach(
-                                            track => {
-                                                let newTrack: any = track.payload.toJSON();
-                                                newTrack['$key'] = track.key;
-                                                this.usersService.getUserDataByUid(newTrack.instructorUid)
-                                                    .subscribe(
-                                                        instructorData =>
-                                                            newTrack['instructorData'] = instructorData
-                                                    );
-                                                this.usersService.getUserDataByUid(newTrack.studentUid)
-                                                    .subscribe(
-                                                        studentData =>
-                                                            newTrack['studentData'] = studentData
-                                                    );
-                                                this.tracksListModel.push(newTrack);
-                                            }
-                                        )
+                                (userData: IDbUser) => {
+                                    if (userData) {
+                                        this.userDataModel = {
+                                            role: userData.role,
+                                            email: userData.email,
+                                            firstName: userData.firstName,
+                                            lastName: userData.lastName
+                                        };
+                                        this.tracksService
+                                            .getUserTracksList(authUser.uid, userData.role)
+                                            .snapshotChanges()
+                                            .subscribe(
+                                                userTracks => {
+                                                    if (userTracks) {
+                                                        this.tracksListModel = [];
+                                                        userTracks
+                                                            .forEach(
+                                                                track => {
+                                                                    let newTrack: any = track.payload.toJSON();
+                                                                    newTrack['$key'] = track.key;
+                                                                    this.usersService.getUserDataByUid(newTrack.instructorUid)
+                                                                        .subscribe(
+                                                                            instructorData =>
+                                                                                newTrack['instructorData'] = instructorData
+                                                                        );
+                                                                    this.usersService.getUserDataByUid(newTrack.studentUid)
+                                                                        .subscribe(
+                                                                            studentData =>
+                                                                                newTrack['studentData'] = studentData
+                                                                        );
+                                                                    this.tracksListModel.push(newTrack);
+                                                                }
+                                                            )
+                                                    }
+                                                }
+                                            )
                                     }
-                                });
+                                }
+                            );
                     }
                 }
             );

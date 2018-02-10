@@ -3,35 +3,27 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
+import {IAuthUser, IDbUser} from '../app.interface';
 
 interface IEmailPasswordCredentials {
     email: string;
     password: string;
 }
-interface IAuthUser {
-    uid: string;
-    email: string;
-    role: number;
-    firstName?: string;
-    lastName?: string;
-}
 
 @Injectable()
 export class AuthService {
 
-    public loggedInUser: any;
+    public authUser: any;
 
     constructor(private afAuth: AngularFireAuth,
                 private db: AngularFireDatabase,
                 private router: Router) {
 
-        this.loggedInUser = this.afAuth.authState
+        this.authUser = this.afAuth.authState
             .switchMap(
-                user => {
+                (user: IAuthUser) => {
                     if (user) {
-                        console.log(user);
-                        // TODO: remove it!!
-                        return this.db.object<IAuthUser>(`users/${user.uid}`).valueChanges();
+                        return Observable.of(user);
                     } else {
                         return Observable.of(null)
                     }
@@ -59,7 +51,7 @@ export class AuthService {
 
     public initUserData(user): void {
         let userTable = this.db.database.ref(`/users/${user.uid}`);
-        const data: IAuthUser = {
+        const data: IDbUser = {
             uid: user.uid,
             email: user.email,
             role: 0,

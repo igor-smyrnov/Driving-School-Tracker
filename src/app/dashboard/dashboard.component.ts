@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {ILoggedUser} from '../app.interface';
+import {IAuthUser, IDbUser} from '../app.interface';
+import {UsersService} from '../users/users.service';
 
 @Component({
     selector: 'app-home-page',
@@ -8,16 +9,20 @@ import {ILoggedUser} from '../app.interface';
     styles: []
 })
 export class DashboardComponent implements OnInit {
-    private userData: ILoggedUser;
+    public userData: IDbUser;
 
-    constructor(private auth: AuthService) {
+    constructor(private auth: AuthService,
+                private usersService: UsersService) {
     }
 
     public ngOnInit(): void {
-        this.auth.loggedInUser
+        this.auth.authUser
             .subscribe(
-                (data: ILoggedUser) => {
-                    this.userData = data;
+                (authUser: IAuthUser) => {
+                    this.usersService.getUserDataByUid(authUser.uid)
+                        .subscribe(userData => {
+                            this.userData = userData;
+                        })
                 }
             )
     }

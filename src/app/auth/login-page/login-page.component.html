@@ -1,8 +1,8 @@
 <script src="../../tracks/tracks-list/tracks-list.component.ts"></script>
 <header></header>
 <main>
-    <form [formGroup]="userForm"
-          (ngSubmit)="login(userForm.value)"
+    <form [formGroup]="loginForm"
+          (ngSubmit)="login(loginForm.value)"
           class="login-page">
 
         <mat-form-field>
@@ -10,44 +10,30 @@
                    placeholder="Enter your email"
                    autocomplete="email"
                    formControlName="email"
-                   [type]="email"
+                   type="email"
                    required>
-            <mat-error *ngIf="userForm.controls.email.hasError('required')">
-                Email is required
-            </mat-error>
         </mat-form-field>
         <mat-form-field>
             <input matInput
                    placeholder="Enter your password"
                    autocomplete="password"
                    formControlName="password"
-                   [type]="hide ? 'text' : 'password'"
+                   type="password"
                    required>
-            <mat-icon class="hide-icon"
-                      matSuffix
-                      (click)="hide = !hide">
-                {{ hide ? 'visibility' : 'visibility_off' }}
-            </mat-icon>
-            <mat-error *ngIf="userForm.controls.password.hasError('required')">
-                Password is required
-            </mat-error>
         </mat-form-field>
         <button
-                *ngIf="userForm.valid"
+                *ngIf="loginForm.valid"
                 mat-raised-button
                 color="accent"
                 type="submit">
             Log in
         </button>
         <button
-                *ngIf="!userForm.valid"
+                *ngIf="!loginForm.valid"
                 mat-raised-button
                 disabled>
             Log in
         </button>
-        <div *ngIf="firebaseErrors" class="validation-error">
-            {{firebaseErrors.message}}
-        </div>
     </form>
 </main>
 <footer></footer>
