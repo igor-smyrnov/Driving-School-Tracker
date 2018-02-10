@@ -8,6 +8,7 @@
                    [(ngModel)]="userDataModel.firstName"
                    placeholder="Your name"
                    autocomplete="name"
+                   (blur)="save()"
                    type="text">
         </mat-form-field>
         <mat-form-field>
@@ -15,14 +16,8 @@
                    [(ngModel)]="userDataModel.lastName"
                    placeholder="Your surname"
                    autocomplete="surname"
+                   (blur)="save()"
                    type="text">
         </mat-form-field>
-        <button
-                (click)="save()"
-                mat-raised-button
-                color="primary"
-                type="submit">
-            Save
-        </button>
     </mat-card-content>
 </mat-card>

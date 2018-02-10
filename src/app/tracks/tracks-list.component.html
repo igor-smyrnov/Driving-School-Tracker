@@ -4,7 +4,7 @@
     </mat-card-title>
     <mat-card-content class="tracks-container">
         <div class="tracks-list" *ngIf="tracksListModel && userDataModel">
-            <mat-nav-list *ngIf="userDataModel.role == 0">
+            <mat-nav-list *ngIf="userDataModel.role === 0">
                 <h3 mat-subheader>Student tracks</h3>
                 <a title="Show my position"
                    (click)="showUserPosition()"
@@ -23,9 +23,12 @@
                     <h4 mat-line>
                         <b>Instructor:</b>
                     </h4>
-                    <p mat-line>
+                    <p mat-line *ngIf="track.instructorData?.firstName">
                         {{ track.instructorData?.firstName }}
                         {{ track.instructorData?.lastName }}
+                    </p>
+                    <p mat-line *ngIf="!track.instructorData?.firstName">
+                        {{ track.instructorData?.email }}
                     </p>
                     <a title="Remove track"
                        (click)="removeTrack(track.$key)"
@@ -54,9 +57,12 @@
                     <h4 mat-line>
                         <b>Student:</b>
                     </h4>
-                    <p mat-line>
+                    <p mat-line *ngIf="track.studentData?.firstName">
                         {{ track.studentData?.firstName }}
                         {{ track.studentData?.lastName }}
+                    </p>
+                    <p mat-line *ngIf="!track.studentData?.firstName">
+                        {{ track.studentData?.email }}
                     </p>
                 </mat-list-item>
             </mat-nav-list>
@@ -80,16 +86,22 @@
                     <h4 mat-line>
                         <b>Instructor:</b>
                     </h4>
-                    <p mat-line>
+                    <p mat-line *ngIf="track.instructorData?.firstName">
                         {{ track.instructorData?.firstName }}
                         {{ track.instructorData?.lastName }}
+                    </p>
+                    <p mat-line *ngIf="!track.instructorData?.firstName">
+                        {{ track.instructorData?.email }}
                     </p>
                     <h4 mat-line>
                         <b>Student:</b>
                     </h4>
-                    <p mat-line>
+                    <p mat-line *ngIf="track.studentData?.firstName">
                         {{ track.studentData?.firstName }}
                         {{ track.studentData?.lastName }}
+                    </p>
+                    <p mat-line *ngIf="!track.studentData?.firstName">
+                        {{ track.studentData?.email }}
                     </p>
                     <a title="Remove track"
                        (click)="removeTrack(track.$key)"

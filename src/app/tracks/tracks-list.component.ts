@@ -130,6 +130,7 @@ export class TracksListComponent implements OnInit {
                                                                                 newTrack['studentData'] = studentData
                                                                         );
                                                                     this.tracksListModel.push(newTrack);
+                                                                    console.log(this.tracksListModel);
                                                                 }
                                                             )
                                                     }
