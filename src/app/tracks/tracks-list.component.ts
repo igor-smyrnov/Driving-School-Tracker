@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {TracksService} from '../tracks.service';
-import {AuthService} from '../../auth/auth.service';
-import {UsersService} from '../../users/users.service';
-import {IAuthUser, IDbUser} from '../../app.interface';
+import {TracksService} from './tracks.service';
+import {AuthService} from '../auth/auth.service';
+import {UsersService} from '../users/users.service';
+import {IAuthUser, IDbUser} from '../app.interface';
 
 interface IGoogleMap {
     latitude: number;

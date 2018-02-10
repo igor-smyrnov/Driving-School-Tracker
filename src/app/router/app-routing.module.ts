@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginPageComponent} from '../auth/login-page/login-page.component';
-import {TracksListComponent} from '../tracks/tracks-list/tracks-list.component';
+import {LoginPageComponent} from '../auth/login-page.component';
+import {TracksListComponent} from '../tracks/tracks-list.component';
 import {AuthGuardService} from '../auth/auth-guard.service';
 import {DashboardComponent} from '../dashboard/dashboard.component';
-import {UserProfileComponent} from '../users/user-profile/user-profile.component';
+import {UserProfileComponent} from '../users/user-profile.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'dashboard/tracks', pathMatch: 'full'},
