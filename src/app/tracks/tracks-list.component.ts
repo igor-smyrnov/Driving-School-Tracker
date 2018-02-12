@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TracksService} from './tracks.service';
 import {AuthService} from '../auth/auth.service';
 import {UsersService} from '../users/users.service';
-import {IAuthUser, IDbUser} from '../app.interface';
+import {IAuthUser, IDbUser, IPoint, IUserTrack} from '../app.interface';
+import {ActivatedRoute, Router} from '@angular/router';
 
 interface IGoogleMap {
     latitude: number;
@@ -16,11 +17,6 @@ interface IMarker {
     label?: string;
 }
 
-interface IPoint {
-    latitude: number;
-    longitude: number;
-}
-
 @Component({
     selector: 'app-tracks-list',
     templateUrl: './tracks-list.component.html',
@@ -28,7 +24,9 @@ interface IPoint {
 })
 
 export class TracksListComponent implements OnInit {
+    @Input()
     public tracksListModel: any = [];
+    @Input()
     public points: IPoint[] = [];
     public markers: IMarker[] = [];
     public googleMap: IGoogleMap = {
@@ -40,15 +38,33 @@ export class TracksListComponent implements OnInit {
 
     constructor(private tracksService: TracksService,
                 private authService: AuthService,
+                private router: Router,
+                private route: ActivatedRoute,
                 private usersService: UsersService) {
     }
 
     public ngOnInit(): void {
         this.showUserPosition();
         this.getUserData();
+        this.route.queryParams.subscribe(
+            params => {
+                this.tracksService.getTrackByKey(params['uid'])
+                    .subscribe(
+                        track => {
+                            if (track) {
+                                this.showOnMap(track);
+                            }
+                        }
+                    )
+            }
+        );
     }
 
-    public showOnMap(points): void {
+    public showOnMap(track: IUserTrack | any): void {
+        if (track.$key) {
+            this.router.navigate([], {queryParams: {uid: track.$key}});
+        }
+        let points: IPoint[] = track.points;
         this.markers = [];
         for (let key in points) {
             if (points.hasOwnProperty(key)) {
@@ -130,7 +146,6 @@ export class TracksListComponent implements OnInit {
                                                                                 newTrack['studentData'] = studentData
                                                                         );
                                                                     this.tracksListModel.push(newTrack);
-                                                                    console.log(this.tracksListModel);
                                                                 }
                                                             )
                                                     }

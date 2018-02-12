@@ -1,133 +1,74 @@
-<mat-card>
-    <mat-card-title color="primary">
-        <mat-toolbar color="primary">Tracks</mat-toolbar>
-    </mat-card-title>
-    <mat-card-content class="tracks-container">
-        <div class="tracks-list" *ngIf="tracksListModel && userDataModel">
-            <mat-nav-list *ngIf="userDataModel.role === 0">
-                <h3 mat-subheader>Student tracks</h3>
-                <a title="Show my position"
-                   (click)="showUserPosition()"
-                   color="primary" mat-icon-button>
-                    <mat-icon>
-                        <i class="material-icons">my_location</i>
-                    </mat-icon>
-                </a>
-                <mat-list-item *ngFor="let track of tracksListModel"
-                               (click)="showOnMap(track.points)">
-                    <mat-icon mat-list-icon>event</mat-icon>
-
-                    <h4 mat-line>
-                        {{ track.timestamp | date:'yyyy.MM.dd (HH:mm)' }}
-                    </h4>
-                    <h4 mat-line>
-                        <b>Instructor:</b>
-                    </h4>
-                    <p mat-line *ngIf="track.instructorData?.firstName">
-                        {{ track.instructorData?.firstName }}
-                        {{ track.instructorData?.lastName }}
+<div class="ui segments">
+    <div class="ui violet inverted segment">
+        <h1 class="ui center aligned">My Tracks</h1>
+    </div>
+    <div class="ui grid segment">
+        <div class="four wide mobile four wide column"
+             *ngIf="tracksListModel && userDataModel">
+            <div class="ui secondary violet vertical pointing menu">
+                <div class="link item" *ngFor="let track of tracksListModel"
+                     [routerLink]="['/']" [queryParams]="{uid: track.$key}"
+                     routerLinkActive="active">
+                    <div *ngIf="userDataModel.role === 0 || userDataModel.role === 2">
+                        <h4>
+                            <i class="large yellow address card middle aligned icon"></i>
+                            Instructor:
+                        </h4>
+                        <p *ngIf="track.instructorData?.firstName">
+                            {{ track.instructorData?.firstName }}
+                            {{ track.instructorData?.lastName }}
+                        </p>
+                        <p *ngIf="!track.instructorData?.firstName">
+                            {{ track.instructorData?.email }}
+                        </p>
+                        <hr>
+                    </div>
+                    <div *ngIf="userDataModel.role === 1 || userDataModel.role === 2">
+                        <h4>
+                            <i class="large blue address card middle aligned icon"></i>
+                            Student:
+                        </h4>
+                        <p *ngIf="track.studentData?.firstName">
+                            {{ track.studentData?.firstName }}
+                            {{ track.studentData?.lastName }}
+                        </p>
+                        <p *ngIf="!track.studentData?.firstName">
+                            {{ track.studentData?.email }}
+                        </p>
+                        <hr>
+                    </div>
+                    <p>
+                        {{ track.timestamp | date:'yyyy.MM.dd ' }}
+                        <b>{{ track.timestamp | date:'(HH:mm)' }}</b>
                     </p>
-                    <p mat-line *ngIf="!track.instructorData?.firstName">
-                        {{ track.instructorData?.email }}
-                    </p>
-                    <a title="Remove track"
-                       (click)="removeTrack(track.$key)"
-                       mat-icon-button>
-                        <mat-icon color="warn">delete_forever</mat-icon>
-                    </a>
-                </mat-list-item>
-            </mat-nav-list>
-
-            <mat-nav-list *ngIf="userDataModel.role === 1">
-                <h3 mat-subheader>Instructor tracks</h3>
-                <a title="Show my position"
-                   (click)="showUserPosition()"
-                   color="primary" mat-icon-button>
-                    <mat-icon>
-                        <i class="material-icons">my_location</i>
-                    </mat-icon>
-                </a>
-                <mat-list-item *ngFor="let track of tracksListModel"
-                               (click)="showOnMap(track.points)">
-                    <mat-icon mat-list-icon>event</mat-icon>
-
-                    <h4 mat-line>
-                        {{ track.timestamp | date:'yyyy.MM.dd (HH:mm)' }}
-                    </h4>
-                    <h4 mat-line>
-                        <b>Student:</b>
-                    </h4>
-                    <p mat-line *ngIf="track.studentData?.firstName">
-                        {{ track.studentData?.firstName }}
-                        {{ track.studentData?.lastName }}
-                    </p>
-                    <p mat-line *ngIf="!track.studentData?.firstName">
-                        {{ track.studentData?.email }}
-                    </p>
-                </mat-list-item>
-            </mat-nav-list>
-
-            <mat-nav-list *ngIf="userDataModel.role === 2">
-                <h3 mat-subheader>Administrator tracks</h3>
-                <a title="Show my position"
-                   (click)="showUserPosition()"
-                   color="primary" mat-icon-button>
-                    <mat-icon>
-                        <i class="material-icons">my_location</i>
-                    </mat-icon>
-                </a>
-                <mat-list-item *ngFor="let track of tracksListModel"
-                               (click)="showOnMap(track.points)">
-                    <mat-icon mat-list-icon>event</mat-icon>
-
-                    <h4 mat-line>
-                        {{ track.timestamp | date:'yyyy.MM.dd (HH:mm)' }}
-                    </h4>
-                    <h4 mat-line>
-                        <b>Instructor:</b>
-                    </h4>
-                    <p mat-line *ngIf="track.instructorData?.firstName">
-                        {{ track.instructorData?.firstName }}
-                        {{ track.instructorData?.lastName }}
-                    </p>
-                    <p mat-line *ngIf="!track.instructorData?.firstName">
-                        {{ track.instructorData?.email }}
-                    </p>
-                    <h4 mat-line>
-                        <b>Student:</b>
-                    </h4>
-                    <p mat-line *ngIf="track.studentData?.firstName">
-                        {{ track.studentData?.firstName }}
-                        {{ track.studentData?.lastName }}
-                    </p>
-                    <p mat-line *ngIf="!track.studentData?.firstName">
-                        {{ track.studentData?.email }}
-                    </p>
-                    <a title="Remove track"
-                       (click)="removeTrack(track.$key)"
-                       mat-icon-button>
-                        <mat-icon color="warn">delete_forever</mat-icon>
-                    </a>
-                </mat-list-item>
-            </mat-nav-list>
+                    <button *ngIf="userDataModel.role === 0 || userDataModel.role === 2"
+                            title="Remove track"
+                            class="ui negative right labeled icon button"
+                            (click)="myModalNormal.show({inverted: true})"> Remove
+                        <i class="trash icon"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="map">
-            <agm-map [zoom]="googleMap.zoom"
-                     [latitude]="googleMap.latitude"
-                     [longitude]="googleMap.longitude">
-                <agm-marker
-                        *ngFor="let marker of markers"
-                        [latitude]="marker.latitude"
-                        [longitude]="marker.longitude"
-                        [label]="marker.label">
-                </agm-marker>
-                <agm-polyline [strokeColor]="'#3f51b5'">
-                    <agm-polyline-point *ngFor="let point of points"
-                                        [latitude]="point.latitude"
-                                        [longitude]="point.longitude">
-                    </agm-polyline-point>
-                </agm-polyline>
-            </agm-map>
+        <div class="twelve wide mobile twelve wide column ">
+            <div ng-sticky [addClass]="'is-sticky'">
+                <agm-map [zoom]="googleMap.zoom"
+                         [latitude]="googleMap.latitude"
+                         [longitude]="googleMap.longitude">
+                    <agm-marker
+                            *ngFor="let marker of markers"
+                            [latitude]="marker.latitude"
+                            [longitude]="marker.longitude"
+                            [label]="marker.label">
+                    </agm-marker>
+                    <agm-polyline [strokeColor]="'#3f51b5'">
+                        <agm-polyline-point *ngFor="let point of points"
+                                            [latitude]="point.latitude"
+                                            [longitude]="point.longitude">
+                        </agm-polyline-point>
+                    </agm-polyline>
+                </agm-map>
+            </div>
         </div>
-    </mat-card-content>
-</mat-card>
+    </div>
+</div>

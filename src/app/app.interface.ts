@@ -11,11 +11,17 @@ export interface IAuthUser {
     email: string;
 }
 
-export interface ITrack {
+export interface IPoint {
+    latitude: number;
+    longitude: number;
+}
+
+export interface IUserTrack {
+    $key?: string,
     instructorData?: object[],
     studentData?: object[],
     instructorUid: string,
     studentUid: string,
     timestamp: number
-    points: object[]
+    points: IPoint[]
 }

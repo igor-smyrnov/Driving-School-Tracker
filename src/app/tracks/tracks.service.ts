@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
-import {ITrack} from '../app.interface';
+import {IUserTrack} from '../app.interface';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class TracksService {
@@ -8,7 +9,7 @@ export class TracksService {
     constructor(private db: AngularFireDatabase) {
     }
 
-    public getUserTracksList(userUid, userRole): AngularFireList<ITrack> {
+    public getUserTracksList(userUid, userRole): AngularFireList<IUserTrack[]> {
         switch (userRole) {
             case 0: {
                 return this.db.list('/tracks',
@@ -25,6 +26,10 @@ export class TracksService {
                 return this.db.list('/tracks');
             }
         }
+    }
+
+    public getTrackByKey($key: string): Observable<object> {
+        return this.db.object('/tracks/' + $key).valueChanges();
     }
 
     public removeTrack($key: string) {

@@ -5,6 +5,7 @@ import {TracksListComponent} from '../tracks/tracks-list.component';
 import {AuthGuardService} from '../auth/auth-guard.service';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {UserProfileComponent} from '../users/user-profile.component';
+import {NotFoundPageComponent} from '../NotFoundPage/not-found-page.component';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: 'dashboard/tracks', pathMatch: 'full'},
@@ -15,9 +16,10 @@ const appRoutes: Routes = [
         canActivate: [AuthGuardService],
         children: [
             {path: 'tracks', component: TracksListComponent},
-            {path: 'userProfile', component: UserProfileComponent}
+            {path: 'user-profile', component: UserProfileComponent}
         ]
-    }
+    },
+    {path: '**', component: NotFoundPageComponent}
 ];
 
 @NgModule({

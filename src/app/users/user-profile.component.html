@@ -1,23 +1,29 @@
-<mat-card>
-    <mat-card-title color="primary">
-        <mat-toolbar color="primary">User Profile</mat-toolbar>
-    </mat-card-title>
-    <mat-card-content class="tracks-container">
-        <mat-form-field>
-            <input matInput
-                   [(ngModel)]="userDataModel.firstName"
-                   placeholder="Your name"
-                   autocomplete="name"
-                   (blur)="save()"
-                   type="text">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput
-                   [(ngModel)]="userDataModel.lastName"
-                   placeholder="Your surname"
-                   autocomplete="surname"
-                   (blur)="save()"
-                   type="text">
-        </mat-form-field>
-    </mat-card-content>
-</mat-card>
+<div class="ui segments">
+    <div class="ui violet inverted segment">
+        <h1 class="ui center aligned">My Profile</h1>
+    </div>
+    <div class="ui grid segment">
+        <div class="column">
+            <div class="ui labeled input">
+                <div class="ui yellow label">
+                    First name
+                </div>
+                <input [(ngModel)]="userDataModel.firstName"
+                       placeholder="Enter your first name"
+                       autocomplete="first name"
+                       (blur)="save()"
+                       type="text">
+            </div>
+            <div class="ui labeled input">
+                <div class="ui yellow label">
+                    Last name
+                </div>
+                <input [(ngModel)]="userDataModel.lastName"
+                       placeholder="Enter your last name"
+                       autocomplete="last name"
+                       (blur)="save()"
+                       type="text">
+            </div>
+        </div>
+    </div>
+</div>

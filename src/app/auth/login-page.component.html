@@ -1,39 +1,53 @@
-<script src="../tracks/tracks-list.component.ts"></script>
 <header></header>
 <main>
-    <form [formGroup]="loginForm"
-          (ngSubmit)="login(loginForm.value)"
-          class="login-page">
-
-        <mat-form-field>
-            <input matInput
-                   placeholder="Enter your email"
-                   autocomplete="email"
-                   formControlName="email"
-                   type="email"
-                   required>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput
-                   placeholder="Enter your password"
-                   autocomplete="password"
-                   formControlName="password"
-                   type="password"
-                   required>
-        </mat-form-field>
-        <button
-                *ngIf="loginForm.valid"
-                mat-raised-button
-                color="accent"
-                type="submit">
-            Log in
-        </button>
-        <button
-                *ngIf="!loginForm.valid"
-                mat-raised-button
-                disabled>
-            Log in
-        </button>
-    </form>
+    <div class="ui vertical stripe five column centered grid">
+        <div class="fourteen wide mobile ten wide tablet four wide computer column">
+            <div class="ui violet inverted segment center aligned">
+                <h1>Authentication</h1>
+            </div>
+            <div class="ui segment">
+                <form [formGroup]="loginForm"
+                      (ngSubmit)="login(loginForm.value)"
+                      class="ui large form">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input matInput
+                                   placeholder="Enter your email"
+                                   autocomplete="email"
+                                   formControlName="email"
+                                   type="email"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input matInput
+                                   placeholder="Enter your password"
+                                   autocomplete="password"
+                                   formControlName="password"
+                                   type="password"
+                                   required>
+                        </div>
+                    </div>
+                    <button
+                            class="ui fluid large yellow submit button"
+                            *ngIf="loginForm.valid"
+                            mat-raised-button
+                            type="submit">
+                        Log in
+                    </button>
+                    <button
+                            class="ui fluid large yellow submit button"
+                            *ngIf="!loginForm.valid"
+                            mat-raised-button
+                            disabled>
+                        Log in
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 </main>
 <footer></footer>

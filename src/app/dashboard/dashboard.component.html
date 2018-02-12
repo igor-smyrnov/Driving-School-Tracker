@@ -1,38 +1,30 @@
-<main>
-    <mat-toolbar color="primary">
-        <mat-toolbar-row class="container">
-            <button mat-button
-                    routerLink="userProfile">
-                    <mat-icon mat-list-icon>face</mat-icon>
+<header>
+    <div class="ui inverted violet fixed menu">
+        <nav class="ui container">
+            <a class="item" routerLink="user-profile"
+               routerLinkActive="active">
+                <i class="user circle icon"></i>
                 My profile
-            </button>
-            <button mat-button
-                    routerLink="tracks">
-                <mat-icon mat-list-icon>event</mat-icon>
+            </a>
+            <a class="item" routerLink="tracks"
+               routerLinkActive="active">
+                <i class="road icon"></i>
                 My tracks
-            </button>
-            <button mat-raised-button color="accent" (click)="signOut()">Sign Out</button>
-            <span class="fill-remaining-space"></span>
-        </mat-toolbar-row>
-    </mat-toolbar>
-    <mat-sidenav-container>
-        <mat-sidenav mode="side"
-                     #sidenav opened="true">
-            <mat-toolbar color="primary">
-                <h1>User data:</h1>
-            </mat-toolbar>
-            <div *ngIf="userData as user"
-                 class="user-data">
-
-                <p *ngIf="user.role == 0">You logged in as Student</p>
-                <p *ngIf="user.role == 1">You logged in as Instructor</p>
-                <p *ngIf="user.role == 2">You logged in as Administrator</p>
-                <p>{{ user?.firstName }} {{ user?.lastName }}</p>
-                <p>{{ user.email }}</p>
+            </a>
+            <div class="right menu">
+                <div *ngIf="userData as user" class="item">
+                    {{ user.firstName }} {{ user.lastName }}:&nbsp; {{ user.email }}
+                </div>
+                <a class="item" (click)="signOut()">
+                    <button class="ui yellow right labeled icon button">
+                        <i class="sign out icon"></i>
+                        Sign Out
+                    </button>
+                </a>
             </div>
-        </mat-sidenav>
-        <mat-sidenav-content class="dashboard-container">
-            <router-outlet></router-outlet>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+        </nav>
+    </div>
+</header>
+<main class="ui vertical stripe container">
+    <router-outlet></router-outlet>
 </main>

@@ -16,20 +16,11 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {TracksService} from './tracks/tracks.service';
 import {UsersService} from './users/users.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatTabsModule,
-    MatToolbarModule
-} from '@angular/material';
 import {AgmCoreModule} from '@agm/core';
 import {UserProfileComponent} from './users/user-profile.component';
+import {NotFoundPageComponent} from './NotFoundPage/not-found-page.component';
+import {NgStickyDirective} from 'ng-sticky';
+import {NgSemanticModule} from 'ng-semantic';
 
 @NgModule({
     declarations: [
@@ -37,7 +28,9 @@ import {UserProfileComponent} from './users/user-profile.component';
         LoginPageComponent,
         TracksListComponent,
         DashboardComponent,
-        UserProfileComponent
+        UserProfileComponent,
+        NotFoundPageComponent,
+        NgStickyDirective
     ],
     imports: [
         BrowserModule,
@@ -49,17 +42,7 @@ import {UserProfileComponent} from './users/user-profile.component';
         FormsModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        AgmCoreModule.forRoot({apiKey: environment.googleMapsKey}),
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatIconModule,
-        MatCardModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatTabsModule,
-        MatListModule
+        AgmCoreModule.forRoot({apiKey: environment.googleMapsKey})
     ],
     providers: [AuthService, AuthGuardService, TracksService, UsersService],
     bootstrap: [AppComponent]
