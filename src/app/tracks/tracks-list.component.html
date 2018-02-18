@@ -2,8 +2,8 @@
     <div class="ui violet inverted segment">
         <h1 class="ui center aligned">My Tracks</h1>
     </div>
-    <div class="ui grid segment">
-        <div class="four wide mobile four wide column"
+    <div class="ui centered grid segment">
+        <div class="tracks column"
              *ngIf="tracksListModel && userDataModel">
             <div class="ui secondary violet vertical pointing menu">
                 <div class="link item" *ngFor="let track of tracksListModel"
@@ -44,13 +44,13 @@
                     <button *ngIf="userDataModel.role === 0 || userDataModel.role === 2"
                             title="Remove track"
                             class="ui negative right labeled icon button"
-                            (click)="myModalNormal.show({inverted: true})"> Remove
+                            (click)="removeTrack(track.$key)"> Remove
                         <i class="trash icon"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <div class="twelve wide mobile twelve wide column ">
+        <div class="map column">
             <div ng-sticky [addClass]="'is-sticky'">
                 <agm-map [zoom]="googleMap.zoom"
                          [latitude]="googleMap.latitude"

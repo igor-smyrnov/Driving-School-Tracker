@@ -8,9 +8,81 @@
   padding: 8em 0;
 }
 
-.is-sticky {
-  width: 43%;
-  padding-top: 9%;
+.tracks.column {
+  @media only screen and (min-width: 500px) {
+    width: 45% !important;
+  }
+  @media only screen and (min-width: 600px) {
+    width: 37% !important;
+  }
+  @media only screen and (min-width: 700px) {
+    width: 32% !important;
+  }
+  @media only screen and (min-width: 1000px) {
+    width: 23% !important;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 19% !important;
+  }
+}
+
+.map.column {
+  @media only screen and (min-width: 500px) {
+    width: 55% !important;
+  }
+  @media only screen and (min-width: 600px) {
+    width: 63% !important;
+  }
+  @media only screen and (min-width: 700px) {
+    width: 68% !important;
+  }
+  @media only screen and (min-width: 1000px) {
+    width: 77% !important;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 81% !important;
+  }
+}
+
+.map.column .is-sticky {
+  padding-top: 120px;
+  @media only screen and (min-width: 500px) {
+    width: 230px;
+  }
+  @media only screen and (min-width: 600px) {
+    width: 330px;
+  }
+  @media only screen and (min-width: 700px) {
+    width: 430px;
+  }
+  @media only screen and (min-width: 1000px) {
+    width: 690px;
+  }
+  @media only screen and (min-width: 1200px) {
+    width: 885px;
+  }
+}
+
+.responsive.menu {
+  .collapsing.opened {
+    display: block;
+  }
+  .collapsing.closed {
+    display: none;
+  }
+  .toggler {
+    display: inline-block;
+  }
+  @media only screen and (min-width: 900px) {
+    .collapsing {
+      display: flex !important;
+      transform: none !important;
+    }
+
+    .toggler {
+      display: none;
+    }
+  }
 }
 
 agm-map {

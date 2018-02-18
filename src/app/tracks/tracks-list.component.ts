@@ -65,7 +65,9 @@ export class TracksListComponent implements OnInit {
             this.router.navigate([], {queryParams: {uid: track.$key}});
         }
         let points: IPoint[] = track.points;
+        this.points = [];
         this.markers = [];
+        console.log(points);
         for (let key in points) {
             if (points.hasOwnProperty(key)) {
                 if (parseInt(key) === 1) {

@@ -20,7 +20,6 @@ import {AgmCoreModule} from '@agm/core';
 import {UserProfileComponent} from './users/user-profile.component';
 import {NotFoundPageComponent} from './NotFoundPage/not-found-page.component';
 import {NgStickyDirective} from 'ng-sticky';
-import {NgSemanticModule} from 'ng-semantic';
 
 @NgModule({
     declarations: [
