@@ -21,7 +21,7 @@ export class LoginPageComponent implements OnInit {
     public login(formData): void {
         this.auth.emailLogin(formData)
             .then(
-                (error) => console.log(error)
+                (error) => console.error(error)
             )
     }
 

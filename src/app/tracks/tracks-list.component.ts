@@ -67,28 +67,27 @@ export class TracksListComponent implements OnInit {
         let points: IPoint[] = track.points;
         this.points = [];
         this.markers = [];
-        console.log(points);
         for (let key in points) {
             if (points.hasOwnProperty(key)) {
-                if (parseInt(key) === 1) {
-                    this.googleMap.latitude = points[key].latitude;
-                    this.googleMap.longitude = points[key].longitude;
+                if (parseInt(key) === 0) {
+                    this.googleMap.latitude = points[key][0];
+                    this.googleMap.longitude = points[key][1];
                     this.markers.push({
-                        latitude: points[key].latitude,
-                        longitude: points[key].longitude,
+                        latitude: points[key][0],
+                        longitude: points[key][1],
                         label: 'A'
                     });
                 }
                 if (parseInt(key) === Object.keys(points).length - 1) {
                     this.markers.push({
-                        latitude: points[key].latitude,
-                        longitude: points[key].longitude,
+                        latitude: points[key][0],
+                        longitude: points[key][1],
                         label: 'B'
                     });
                 }
                 this.points.push({
-                    latitude: points[key].latitude,
-                    longitude: points[key].longitude,
+                    latitude: points[key][0],
+                    longitude: points[key][1],
                 });
             }
         }
