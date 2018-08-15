@@ -7,9 +7,7 @@
     "start": "ng serve",
     "start-prod": "ng serve --env=prod",
     "build": "ng build --env=prod --base-href /tracker/",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {

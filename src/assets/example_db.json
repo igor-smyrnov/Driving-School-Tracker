@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "uid": 1,
+      "email": "smeriott0@toplist.cz",
+      "password": "Z0lHxnXB",
+      "first_name": "Sebastien",
+      "last_name": "Meriott"
+    },
+    {
+      "uid": 2,
+      "email": "hgraveston1@indiegogo.com",
+      "password": "lTjVyMM",
+      "first_name": "Honor",
+      "last_name": "Graveston"
+    },
+    {
+      "uid": 3,
+      "email": "sdohmann2@ask.com",
+      "password": "8ls0Eu",
+      "first_name": "Shane",
+      "last_name": "Dohmann"
+    },
+    {
+      "uid": 4,
+      "email": "esander3@admin.ch",
+      "password": "0A47nqPeP2",
+      "first_name": "Erasmus",
+      "last_name": "Sander"
+    },
+    {
+      "uid": 5,
+      "email": "fkorneichuk4@ox.ac.uk",
+      "password": "LFDcuDoN8OFs",
+      "first_name": "Farrand",
+      "last_name": "Korneichuk"
+    },
+    {
+      "uid": 6,
+      "email": "silyasov5@ebay.co.uk",
+      "password": "R75y6zpyh",
+      "first_name": "Scarlett",
+      "last_name": "Ilyasov"
+    }
+  ]
+}
